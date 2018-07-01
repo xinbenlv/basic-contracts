@@ -6,6 +6,11 @@ pragma solidity ^0.4.22;
 This is to demonstrate a smart contract without auditing could be completely useless and a joke.
 
 This contract is published on [ETH(Ropsten.io testnet)](https://ropsten.etherscan.io/token/0x75e80d242730deb9f18064ea96f0e880a5aa4a0e)
+Updated
+ - 2018-07-01 15:25 PT: After a second review, I realize there is a bug in function "issueOwnerMore", in that
+ it doesn't do `balanceOf[owner]+= _value;`
+ Therefore it was not Pure Air Token.
+
 */
 contract PureAirToken {
     /* Public variables of the token */
@@ -73,5 +78,6 @@ contract PureAirToken {
         require (totalSupply + _value > totalSupply); // TODO not safe for overflow
         require (balanceOf[msg.sender] + _value > balanceOf[msg.sender]); // TODO not safe for overflow
         totalSupply += _value;
+        balanceOf[owner]+= _value;
     }
 }
