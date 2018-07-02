@@ -4,6 +4,8 @@ pragma solidity ^0.4.18;
 /**
 // A token that supports batch transaction to multiple addresses
 
+Deploy: 1 - Ropsten, 0x330FfAA810f7873271C4B274975011E7E8f60C40
+2.
  */
 contract MultiAirDropToken {
     /* Public variables of the token */
@@ -54,7 +56,7 @@ contract MultiAirDropToken {
     }
 
     /* Send coins */
-    function transfer(address[] _to, uint256 _value) public {
+    function transferMulti(address[] _to, uint256 _value) public {
         require(balanceOf[msg.sender] >= (_value * _to.length));
         for (uint i=0; i<_to.length; i++) {
             // Check if the sender has enough
