@@ -1,5 +1,6 @@
 pragma solidity ^0.4.18;
 
+import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 
 /**
 // A token that supports batch transaction to multiple addresses
@@ -8,6 +9,7 @@ Deploy: 1 - Ropsten, 0x330FfAA810f7873271C4B274975011E7E8f60C40
 2.
  */
 contract MultiAirDropToken {
+    using SafeMath for uint256;
     /* Public variables of the token */
     string public standard = "Token 0.1";
     string public name;
@@ -21,9 +23,10 @@ contract MultiAirDropToken {
 
     /* This generates a public event on the blockchain that will notify clients */
     event Transfer(address indexed from, address indexed to, uint256 value);
+    event TransferMulti(address indexed from, address[] indexed to, uint256 value);
 
     /* Initializes contract with initial supply tokens to the creator of the contract */
-    function MultiAirDropToken(
+    constructor(
         uint256 initialSupply,
         string tokenName,
         uint8 decimalUnits,
@@ -44,30 +47,20 @@ contract MultiAirDropToken {
     /* Send coins */
     function transfer(address _to, uint256 _value) public {
         require(balanceOf[msg.sender] >= _value);
-        // Check if the sender has enough
-        if (balanceOf[_to] + _value < balanceOf[_to]) revert();
-        // Check for overflows
-        balanceOf[msg.sender] -= _value;
-        // Subtract from the sender
-        balanceOf[_to] += _value;
-        // Add the same to the recipient
+        balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);
+        balanceOf[_to] = balanceOf[_to].add(_value);
         emit Transfer(msg.sender, _to, _value);
-        // Notify anyone listening that this transfer took place
     }
 
     /* Send coins */
     function transferMulti(address[] _to, uint256 _value) public {
         require(balanceOf[msg.sender] >= (_value * _to.length));
-        for (uint i=0; i<_to.length; i++) {
-            // Check if the sender has enough
-            require (balanceOf[_to[i]] + _value >= balanceOf[_to[i]]);
-            // Check for overflows
-            balanceOf[msg.sender] -= _value;
-            // Subtract from the sender
-            balanceOf[_to[i]] += _value;
-            // Add the same to the recipient
-            emit Transfer(msg.sender, _to[i], _value);
-            // Notify anyone listening that this transfer took place
+
+        balanceOf[msg.sender] = balanceOf[msg.sender].sub(_to.length * _value);
+        for (uint i = 0; i<_to.length; i++) {
+            balanceOf[_to[i]] = balanceOf[_to[i]].add(_value);
+
         }
+        emit TransferMulti(msg.sender, _to, _value);
     }
 }
