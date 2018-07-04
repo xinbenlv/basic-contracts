@@ -24,6 +24,7 @@ contract MultiAirDropToken {
     /* This generates a public event on the blockchain that will notify clients */
     event Transfer(address indexed from, address indexed to, uint256 value);
     event TransferMulti(address indexed from, address[] indexed to, uint256 value);
+    event Transfer5(address indexed from, address[] indexed to, uint256 value);
 
     /* Initializes contract with initial supply tokens to the creator of the contract */
     constructor(
@@ -59,8 +60,20 @@ contract MultiAirDropToken {
         balanceOf[msg.sender] = balanceOf[msg.sender].sub(_to.length * _value);
         for (uint i = 0; i<_to.length; i++) {
             balanceOf[_to[i]] = balanceOf[_to[i]].add(_value);
-
         }
         emit TransferMulti(msg.sender, _to, _value);
+    }
+
+        /* Send coins */
+    function transfer5(address[] _to, uint256 _value) public {
+        require(balanceOf[msg.sender] >= (_value * 5));
+
+        balanceOf[msg.sender] = balanceOf[msg.sender].sub(5 * _value);
+        balanceOf[_to[0]] = balanceOf[_to[0]].add(_value);
+        balanceOf[_to[1]] = balanceOf[_to[1]].add(_value);
+        balanceOf[_to[2]] = balanceOf[_to[2]].add(_value);
+        balanceOf[_to[3]] = balanceOf[_to[3]].add(_value);
+        balanceOf[_to[4]] = balanceOf[_to[4]].add(_value);
+        emit Transfer5(msg.sender, _to, _value);
     }
 }
