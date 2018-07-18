@@ -1,6 +1,7 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.22;
 
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+
 
 /**
 // A token that supports batch transaction to multiple addresses
@@ -25,6 +26,7 @@ contract MultiAirDropToken {
     event Transfer(address indexed from, address indexed to, uint256 value);
     event TransferMulti(address indexed from, address[] indexed to, uint256 value);
     event Transfer5(address indexed from, address[] indexed to, uint256 value);
+    event Transfer20(address indexed from, address[] indexed to, uint256 value);
 
     /* Initializes contract with initial supply tokens to the creator of the contract */
     constructor(
@@ -75,5 +77,33 @@ contract MultiAirDropToken {
         balanceOf[_to[3]] = balanceOf[_to[3]].add(_value);
         balanceOf[_to[4]] = balanceOf[_to[4]].add(_value);
         emit Transfer5(msg.sender, _to, _value);
+    }
+
+    function transfer20(address[] _to, uint256 _value) public {
+        require(balanceOf[msg.sender] >= (_value * 20));
+
+        balanceOf[msg.sender] = balanceOf[msg.sender].sub(20 * _value);
+        balanceOf[_to[1]] = balanceOf[_to[1]].add(_value);
+        balanceOf[_to[2]] = balanceOf[_to[2]].add(_value);
+        balanceOf[_to[3]] = balanceOf[_to[3]].add(_value);
+        balanceOf[_to[4]] = balanceOf[_to[4]].add(_value);
+        balanceOf[_to[5]] = balanceOf[_to[5]].add(_value);
+        balanceOf[_to[6]] = balanceOf[_to[6]].add(_value);
+        balanceOf[_to[7]] = balanceOf[_to[7]].add(_value);
+        balanceOf[_to[8]] = balanceOf[_to[8]].add(_value);
+        balanceOf[_to[9]] = balanceOf[_to[9]].add(_value);
+        balanceOf[_to[10]] = balanceOf[_to[10]].add(_value);
+        balanceOf[_to[11]] = balanceOf[_to[11]].add(_value);
+        balanceOf[_to[12]] = balanceOf[_to[12]].add(_value);
+        balanceOf[_to[13]] = balanceOf[_to[13]].add(_value);
+        balanceOf[_to[14]] = balanceOf[_to[14]].add(_value);
+        balanceOf[_to[15]] = balanceOf[_to[15]].add(_value);
+        balanceOf[_to[16]] = balanceOf[_to[16]].add(_value);
+        balanceOf[_to[17]] = balanceOf[_to[17]].add(_value);
+        balanceOf[_to[18]] = balanceOf[_to[18]].add(_value);
+        balanceOf[_to[19]] = balanceOf[_to[19]].add(_value);
+        balanceOf[_to[20]] = balanceOf[_to[20]].add(_value);
+
+        emit Transfer20(msg.sender, _to, _value);
     }
 }
