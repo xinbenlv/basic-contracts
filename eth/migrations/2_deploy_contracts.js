@@ -1,7 +1,7 @@
-var MultiAirDropToken = artifacts.require("MultiAirDropToken");
+var SimplestVote = artifacts.require("SimplestVote");
 
 module.exports = function(deployer) {
-  deployer.deploy(MultiAirDropToken, 1000000000000, 'MultiAirDropToken', 0, 'MAD');
+  deployer.deploy(SimplestVote);
   // uint256 initialSupply,
   // string tokenName,
   // uint8 decimalUnits,
